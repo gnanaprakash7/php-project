@@ -10,7 +10,7 @@ pipeline {
         stage('Build docker image'){
             steps{
                 script{
-                    sh 'docker build -t gnanaprakash7/akshatnewimg6july:v1 .'
+                    sh 'docker build -t gnanaprakash7/phpimage:v1 .'
                     sh 'docker images'
                 }
             }
@@ -19,7 +19,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-pwd', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     sh "echo $PASS | docker login -u $USER --password-stdin"
-                    sh 'docker push gnanaprakash7/akshatnewimg6july:v1'
+                    sh 'docker push gnanaprakash7/phpimage:v1'
                 }
             }
         }
@@ -28,14 +28,13 @@ pipeline {
             steps {
                script {
                    def dockerrm = 'sudo docker rm -f My-first-containe2211 || true'
-                    def dockerCmd = 'sudo docker run -itd --name My-first-containe2211 -p 8083:80 gnanaprakash7/akshatnewimg6july:v1'
+                    def dockerCmd = 'sudo docker run -itd --name My-first-containe2211 -p 8083:80 gnanaprakash7/phpimage:v1'
                     sshagent(['sshkeypair']) {
                         //chnage the private ip in below code
-                        // sh "docker run -itd --name My-first-containe2111 -p 8083:80 akshu20791/2febimg:v1"
-                         sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.10.79 ${dockerrm}"
-                         sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.10.79 ${dockerCmd}"
-                        sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.3.98 ${dockerrm}"
-                         sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.3.98 ${dockerCmd}"
+                        // sh "docker run -itd --name My-first-containe2111 -p 8083:80 akshu20791/phpimage:v1"
+                         sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.6.151 ${dockerrm}"
+                         sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.6.151 ${dockerCmd}"
+                        
                     }
                 }
             }
